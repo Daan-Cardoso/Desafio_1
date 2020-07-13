@@ -1,10 +1,9 @@
-(function Main(){
+(function Main() {
     var clients = [];
+    var filter;
 
-    async function FetchCliente()
-    {
-        clients = [
-            {
+    async function FetchCliente() {
+        clients = [{
                 name: "Kauan Pereira Rocha",
                 telefone: "(81) 9479-5548"
             },
@@ -67,22 +66,88 @@
         ]
     }
 
-    function Update()
-    {
+    function Update() {
         var $list = document.getElementById('list');
         var aux = "";
-        for(var i = 0; i < clients.length; i++)
-        {
+        for (var i = 0; i < clients.length; i++) {
             aux += `<li>${clients[i].name}</li>`;
         }
         $list.innerHTML = aux;
     }
 
-    async function Start()
-    {
+    function enableFilter(state) {
+        if (state !== true) {
+            return false
+        }
+        const $list = document.getElementById('list');
+        const $searchInput = document.getElementById('input');
+    
+        function clearFilter() {
+            $list.innerHTML = "";
+        }
+    
+        function createItem(content) {
+            let item = document.createElement('li');
+            let textContent = document.createTextNode(content);
+            $list.appendChild(item)
+            item.appendChild(textContent);
+        }
+    
+        function filterUpdate(word) {
+            clearFilter();
+    
+            word = word.toUpperCase();
+            if ($searchInput.value !== "") {
+                const wordSize = word.length;
+                let wordSliced;
+                for (let i in clients) {
+                    for (let j = 0; j < clients[i].name.length; j++) {
+                        wordSliced = clients[i].name.slice(j, j + wordSize);
+                        wordSliced = wordSliced.toUpperCase();
+                        if (wordSliced === word) {
+                            createItem(clients[i].name);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                Update();
+            }
+        }
+    
+        function checkItemSelect() {
+            const $listItem = document.getElementsByTagName('li');
+            const listItemText = [];
+    
+    
+            for (let i = 0; i < $listItem.length; i++) {
+                listItemText.push($listItem[i].innerHTML);
+            }
+    
+            function printSelectedItem(clientName) {
+                const printText = document.getElementsByTagName('p')[0];
+                printText.innerHTML = "Nome selecionado: " + clientName;
+            }
+    
+            for (let i = 0; i < $listItem.length; i++) {
+                $listItem[i].addEventListener('click', () => printSelectedItem(listItemText[i]))
+            }
+        }
+    
+        $searchInput.addEventListener('keyup', () => {
+            filterUpdate($searchInput.value);
+            checkItemSelect();
+        })
+        checkItemSelect();
+    }
+
+    async function Start() {
         await FetchCliente();
         Update();
+        enableFilter(true);
     }
+
+
 
     Start();
 
