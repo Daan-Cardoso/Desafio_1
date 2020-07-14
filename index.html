@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
     <title>Teste 1</title>
 </head>
 <body>
-    <input type="text" id="input" placeholder="Name">
-    <ul  id="list">
-        
-    </ul>
-    <p>Nome selecionado:</p>
-    <script src="./main.js"></script>
+    <main class="main-content">
+        <div class="main-content__container">
+            <section class="input-box">
+                <input class="search-input" type="text" id="input" placeholder="Name">
+            </section>
+            <section class="costumer">
+                <ul id="list" class="costumer__list">
+
+                </ul>
+            </section>
+            <p class="selected-customer">Nome selecionado:<i class="selected-customer__info"></i></p>
+            <script src="./main.js"></script>
+        </div>
+    </main>
 </body>
+
 </html>

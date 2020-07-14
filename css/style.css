@@ -1,0 +1,49 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main-content__container{
+    width: 100%;
+}
+.input-box{
+}
+.search-input{
+    width: 80%;
+    padding: 20px;
+    border: none;
+    border-bottom: 2px solid #778899;
+    color: #778899;
+    font-size: inherit;
+}
+.search-input:focus{
+    border-bottom: 2px solid #ff6347;
+    outline: none;
+}
+.costumer__list{
+    padding: 0;
+    list-style-type: none;
+}
+.list__item{
+    width: 80%;
+    padding: 5px 20px;
+}
+.list__item:hover{
+    background-color: tomato;
+}
+.selected-customer{
+    width: 80%;
+    border-top: 2px solid #778899;
+    padding: 10px 20px;
+    font-size: 18px;
+}
+.selected-customer__info{
+    font-style: normal;
+    font-weight: bold;
+}

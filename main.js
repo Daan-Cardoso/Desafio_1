@@ -1,6 +1,8 @@
 (function Main() {
     var clients = [];
-    var filter;
+    const $list = document.getElementById('list');
+    const $listItem = document.getElementsByTagName('li');
+
 
     async function FetchCliente() {
         clients = [{
@@ -66,37 +68,33 @@
         ]
     }
 
+    function createItem(content) {
+        const item = document.createElement('li');
+        item.classList.add('list__item');
+        const textContent = document.createTextNode(content);
+        $list.appendChild(item);
+        item.appendChild(textContent);
+    }
+
     function Update() {
-        var $list = document.getElementById('list');
-        var aux = "";
-        for (var i = 0; i < clients.length; i++) {
-            aux += `<li>${clients[i].name}</li>`;
+        for (let i in clients) {
+            createItem(clients[i].name);
         }
-        $list.innerHTML = aux;
     }
 
     function enableFilter(state) {
         if (state !== true) {
-            return false
+            return false;
         }
-        const $list = document.getElementById('list');
         const $searchInput = document.getElementById('input');
     
         function clearFilter() {
-            $list.innerHTML = "";
-        }
-    
-        function createItem(content) {
-            let item = document.createElement('li');
-            let textContent = document.createTextNode(content);
-            $list.appendChild(item)
-            item.appendChild(textContent);
+            for( let i = 0; i < $listItem.length; i++){
+                $listItem[i].style.display="";
+            }
         }
     
         function filterUpdate(word) {
-            clearFilter();
-    
-            word = word.toUpperCase();
             if ($searchInput.value !== "") {
                 const wordSize = word.length;
                 let wordSliced;
@@ -105,37 +103,32 @@
                         wordSliced = clients[i].name.slice(j, j + wordSize);
                         wordSliced = wordSliced.toUpperCase();
                         if (wordSliced === word) {
-                            createItem(clients[i].name);
+                            $listItem[i].style.display = ""
                             break;
+                        }else{
+                            $listItem[i].style.display = "none";
                         }
                     }
                 }
             } else {
-                Update();
+                clearFilter()
             }
         }
     
         function checkItemSelect() {
-            const $listItem = document.getElementsByTagName('li');
-            const listItemText = [];
-    
-    
-            for (let i = 0; i < $listItem.length; i++) {
-                listItemText.push($listItem[i].innerHTML);
+            const $clientInfo = document.getElementsByClassName('selected-customer__info')[0];
+
+            function printSelectedItem(clientName, telefone) {
+                $clientInfo.innerHTML = ` ${clientName}, ${telefone}`
             }
-    
-            function printSelectedItem(clientName) {
-                const printText = document.getElementsByTagName('p')[0];
-                printText.innerHTML = "Nome selecionado: " + clientName;
-            }
-    
             for (let i = 0; i < $listItem.length; i++) {
-                $listItem[i].addEventListener('click', () => printSelectedItem(listItemText[i]))
+                $listItem[i].addEventListener('click', () => printSelectedItem(clients[i].name, clients[i].telefone));
             }
         }
-    
+
+        
         $searchInput.addEventListener('keyup', () => {
-            filterUpdate($searchInput.value);
+            filterUpdate($searchInput.value.toUpperCase().trim());
             checkItemSelect();
         })
         checkItemSelect();
