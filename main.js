@@ -89,10 +89,14 @@
         }
     }
 
-    function filter(word) {
-        if (word !== "") {
+    function padronizeSearch(word) {
+        return word.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, '')
+    }
+
+    function filter(inputedWord) {
+        if (inputedWord !== "") {
             for (let i = 0; i < clients.length; i++) {
-                (clients[i].name.toUpperCase().indexOf(word)) > -1 ? $listItem[i].style.display = "" : $listItem[i].style.display = "none";
+                padronizeSearch(clients[i].name).indexOf(inputedWord) > -1 ? $listItem[i].style.display = "" : $listItem[i].style.display = "none";
             }
         } else {
             clearFilter();
@@ -111,7 +115,7 @@
     }
 
     $searchInput.addEventListener('keyup', () => {
-        filter($searchInput.value.trim().toUpperCase());
+        filter(padronizeSearch($searchInput.value));
     })
 
 
